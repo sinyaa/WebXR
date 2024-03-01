@@ -1,0 +1,23 @@
+{
+  "name": "WebXR",
+  "version": "1.0.0",
+  "description": "This project aims to explore the capabilities of WebXR in conjunction with Apple Vision Pro. WebXR is a technology that enables immersive experiences on the web, while Apple Vision Pro provides powerful tools for computer vision tasks on Apple devices. By combining these technologies, we aim to create engaging and innovative experiences that leverage augmented reality (AR) capabilities for Apple devices.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/sinyaa/WebXR.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/sinyaa/WebXR/issues"
+  },
+  "homepage": "https://github.com/sinyaa/WebXR#readme",
+  "dependencies": {
+    "aframe": "^1.5.0"
+  }
+}
