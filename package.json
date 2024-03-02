@@ -20,6 +20,7 @@
   "homepage": "https://github.com/sinyaa/WebXR#readme",
   "dependencies": {
     "aframe": "^1.5.0",
-    "jquery": "^3.7.1"
+    "jquery": "^3.7.1",
+    "spatial": "^0.1.1"
   }
 }
