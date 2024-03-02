@@ -5,45 +5,7 @@
     <title>Explore WebXR on Apple Vision Pro</title>
     <link href="https://fonts.googleapis.com/css?family=Roboto:400,500,700&display=swap" rel="stylesheet">
     <script src="https://aframe.io/releases/1.2.0/aframe.min.js"></script>
-    <style>
-        body {
-            font-family: 'Roboto', sans-serif;
-            margin: 0;
-            padding: 0px;
-            background-image: url('images/bk.webp');
-            background-size: cover;
-            background-position: center;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-            text-align: center;
-        }
-
-        #enter-vr {
-            padding: 15px 30px;
-            font-size: 1.5rem;
-            color: #FFF;
-            background-color: #007BFF;
-            border: none;
-            cursor: pointer;
-            border-radius: 5px;
-            transition: background-color 0.3s ease;
-        }
-
-        #enter-vr:hover {
-            background-color: #0056b3;
-        }
-
-        .container {
-            max-width: 600px;
-            margin: 0 auto;
-            padding: 20px;
-            margin-left: 20px; /* Add this line to move the container 20px to the right */
-            background: rgba(255, 255, 255, 0.8);
-            border-radius: 10px;
-        }
-    </style>
+    <link rel='stylesheet' href='css/index.css'>
 </head>
 <body>
     <div class="container">
@@ -53,7 +15,7 @@
     </div>
     <script>
         document.getElementById('enter-vr').addEventListener('click', function() {
-            location.href = "world.html";
+            location.href = "hands.html";
         });
     </script>
 </body>

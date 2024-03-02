@@ -1,0 +1,36 @@
+body {
+    font-family: 'Roboto', sans-serif;
+    margin: 0;
+    padding: 0px;
+    background-image: url('../images/bk.webp');
+    background-size: cover;
+    background-position: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    text-align: center;
+}
+
+#enter-vr {
+    padding: 15px 30px;
+    font-size: 1.5rem;
+    color: #FFF;
+    background-color: #007BFF;
+    border: none;
+    cursor: pointer;
+    border-radius: 5px;
+}
+
+#enter-vr:hover {
+    background-color: #0056b3;
+}
+
+.container {
+    max-width: 600px;
+    margin: 0 auto;
+    padding: 20px;
+    margin-left: 20px; /* Add this line to move the container 20px to the right */
+    background: rgba(255, 255, 255, 0.8);
+    border-radius: 10px;
+}
