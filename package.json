@@ -18,6 +18,7 @@
   },
   "homepage": "https://github.com/sinyaa/WebXR#readme",
   "dependencies": {
-    "aframe": "^1.5.0"
+    "aframe": "^1.5.0",
+    "jquery": "^3.7.1"
   }
 }
