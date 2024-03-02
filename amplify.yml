@@ -7,7 +7,7 @@ frontend:
     build:
       commands: []
   artifacts:
-    baseDirectory: WebXR
+    baseDirectory: /
     files:
       - '**/*'
   cache:
