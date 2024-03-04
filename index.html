@@ -95,7 +95,6 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
       current++;
       if (current > textures.length-1) current = 0;
       let newTexture = textures[current];
-      return;
       // Step 1: Remove the existing SkyboxNode from the scene
       if (currentSkyboxNode) {
         scene.removeNode(currentSkyboxNode);
@@ -376,7 +375,7 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
       if (Distance(indexFingerBoxes.left, indexFingerBoxes.right) < indexFingerBoxes.left.scale[0]) {	
         rightInteractionBox.visible = true;
-        replaceSkyboxNode();
+        //replaceSkyboxNode();
       } 
 
       interactionBox.visible = !(leftInteractionBox.visible || rightInteractionBox.visible);
