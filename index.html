@@ -33,7 +33,7 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
   <link rel='stylesheet' href='./css/common.css'>
   <link href="https://fonts.googleapis.com/css?family=Roboto:400,500,700&display=swap" rel="stylesheet">
   <link rel='stylesheet' href='css/index.css'>
-  <title>Immersive Session with hands</title>
+  <title>Immersive Session</title>
 </head>
 
 <body>
@@ -77,7 +77,7 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
     let textureRoot = "assets/textures/";
     let textures = ['citypark','ice','mars', 'grass'];
     let current = 0;
-
+    let currentTry = Date.now();
     // WebGL scene globals.
     let gl = null;
     let renderer = null;
@@ -85,10 +85,16 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
     let currentSkyboxNode =new SkyboxNode({url: 'assets/textures/citypark.png'})
     //scene.addNode(new Gltf2Node({url: 'assets/environments/camp/camp.gltf'}));
     scene.addNode(currentSkyboxNode);
-    //scene.standingStats(true);
+    scene.standingStats(true);
 
 
     function replaceSkyboxNode() {
+      let timeNow = Date.now();
+      let passedSeconds = (timeNow - currentTry)/1000;
+
+      if (passedSeconds < 10) return;
+      currentTry=timeNow;
+      
       current++;
       if (current > textures.length-1) current = 0;
       let newTexture = textures[current];
