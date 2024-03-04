@@ -88,7 +88,7 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
     function replaceSkyboxNode() {
       current++;
-      if (current > textures.length) current = 0;
+      if (current > textures.length-1) current = 0;
       let newTexture = textures[current];
       // Step 1: Remove the existing SkyboxNode from the scene
       if (currentSkyboxNode) {
@@ -359,11 +359,6 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
           Math.pow(nodeA.translation[2] - nodeB.translation[2], 2));	
       }
 
-      //if (Distance(indexFingerBoxes.left, indexFingerBoxes.right) < interactionDistance) {	
-      //  replaceSkyboxNode();
-      // } 
-
-
       // Perform distance check on interactable elements
       const interactionDistance = interactionBox.scale[0];	
       leftInteractionBox.visible = false;	
@@ -373,6 +368,11 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
       } else if (Distance(indexFingerBoxes.right, interactionBox) < interactionDistance) {	
         rightInteractionBox.visible = true;	
       }	
+
+      if (Distance(indexFingerBoxes.left, indexFingerBoxes.right) < interactionDistance) {	
+        interactionBox.visible = true;
+      } 
+
       interactionBox.visible = !(leftInteractionBox.visible || rightInteractionBox.visible);
       
       mat4.rotateX(interactionBox.matrix, interactionBox.matrix, time/1000);
