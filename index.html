@@ -81,9 +81,10 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
     let renderer = null;
     let scene = new Scene();
     let currentSkyboxNode =new SkyboxNode({url: 'assets/textures/citypark.png'})
-    scene.addNode(new Gltf2Node({url: 'assets/environments/camp/camp.gltf'}));
+    //scene.addNode(new Gltf2Node({url: 'assets/environments/camp/camp.gltf'}));
     scene.addNode(currentSkyboxNode);
     //scene.standingStats(true);
+
 
     function replaceSkyboxNode() {
       current++;
@@ -358,9 +359,9 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
           Math.pow(nodeA.translation[2] - nodeB.translation[2], 2));	
       }
 
-      if (Distance(indexFingerBoxes.left, indexFingerBoxes.right) < interactionDistance) {	
-        replaceSkyboxNode();
-      } 
+      //if (Distance(indexFingerBoxes.left, indexFingerBoxes.right) < interactionDistance) {	
+      //  replaceSkyboxNode();
+      // } 
 
 
       // Perform distance check on interactable elements
@@ -449,6 +450,7 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
     // Start the XR application.
     initXR();
+    console.log("Init complete");
   </script>
 </body>
 
