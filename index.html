@@ -72,14 +72,40 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
     let interactionBox = null;
     let leftInteractionBox = null;
     let rightInteractionBox = null;
+    let textureRoot = "assets/textures/";
+    let textures = ['citypark','ice','mars'];
+    let current = 0;
 
     // WebGL scene globals.
     let gl = null;
     let renderer = null;
     let scene = new Scene();
-    scene.addNode(new Gltf2Node({url: 'assets/environments/camp/camp.gltf'}));
-    scene.addNode(new SkyboxNode({url: 'assets/textures/citypark.png'}));
+    let currentSkyboxNode =new SkyboxNode({url: 'assets/textures/citypark.png'})
+   // scene.addNode(new Gltf2Node({url: 'assets/environments/camp/camp.gltf'}));
+    scene.addNode(currentSkyboxNode);
     scene.standingStats(true);
+
+    function replaceSkyboxNode() {
+      current++;
+      if (current > textures.length) current = 0;
+      let newTexture = textures[current];
+      // Step 1: Remove the existing SkyboxNode from the scene
+      if (currentSkyboxNode) {
+        scene.removeNode(currentSkyboxNode);
+      } else {
+        console.warn("No existing SkyboxNode found to replace.");
+        return; // Exit if there's nothing to replace
+      }
+
+      // Step 2: Create a new SkyboxNode with the new texture
+      let newSkyboxNode = new SkyboxNode({url: textureRoot+newTexture+".png"});
+
+      // Step 3: Add the new SkyboxNode to the scene
+      scene.addNode(newSkyboxNode);
+
+      // Optionally, update your reference to the current SkyboxNode
+      currentSkyboxNode = newSkyboxNode;
+    }
 
     function createBoxPrimitive(r, g, b) {	
       let boxBuilder = new BoxBuilder();	
@@ -331,6 +357,11 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
           Math.pow(nodeA.translation[1] - nodeB.translation[1], 2) +	
           Math.pow(nodeA.translation[2] - nodeB.translation[2], 2));	
       }
+
+      if (Distance(indexFingerBoxes.left, indexFingerBoxes.right) < interactionDistance) {	
+        replaceSkyboxNode();
+      } 
+
 
       // Perform distance check on interactable elements
       const interactionDistance = interactionBox.scale[0];	
