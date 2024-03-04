@@ -73,7 +73,7 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
     let leftInteractionBox = null;
     let rightInteractionBox = null;
     let textureRoot = "assets/textures/";
-    let textures = ['citypark','ice','mars'];
+    let textures = ['citypark','grass','ice','mars'];
     let current = 0;
 
     // WebGL scene globals.
@@ -372,6 +372,7 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
       if (Distance(indexFingerBoxes.left, indexFingerBoxes.right) < indexFingerBoxes.left.scale[0]) {	
         rightInteractionBox.visible = true;
+        replaceSkyboxNode();
       } 
 
       interactionBox.visible = !(leftInteractionBox.visible || rightInteractionBox.visible);
