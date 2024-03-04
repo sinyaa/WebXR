@@ -75,6 +75,7 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
     let textureRoot = "assets/textures/";
     let textures = ['citypark','grass','ice','mars'];
     let current = 0;
+    let timeReplacement = Date.now();
 
     // WebGL scene globals.
     let gl = null;
@@ -87,19 +88,21 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 
     function replaceSkyboxNode() {
+      let timeDiff = Date.now() - timeReplacement;
+      let timeDiffInSeconds = timeDiff / 1000;
+      if (timeDiffInSeconds < 10) return;
+      timeReplacement = Date.now();
       current++;
       if (current > textures.length-1) current = 0;
       let newTexture = textures[current];
       // Step 1: Remove the existing SkyboxNode from the scene
       if (currentSkyboxNode) {
         scene.removeNode(currentSkyboxNode);
-      } else {
-        console.warn("No existing SkyboxNode found to replace.");
-        return; // Exit if there's nothing to replace
-      }
+      } 
 
       // Step 2: Create a new SkyboxNode with the new texture
-      let newSkyboxNode = new SkyboxNode({url: textureRoot+newTexture+".png"});
+      let textureURL = textureRoot+newTexture+".png";
+      let newSkyboxNode = new SkyboxNode({url: textureURL});
 
       // Step 3: Add the new SkyboxNode to the scene
       scene.addNode(newSkyboxNode);
