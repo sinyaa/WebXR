@@ -73,20 +73,42 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
     let leftInteractionBox = null;
     let rightInteractionBox = null;
     let textureRoot = "assets/textures/";
-    let textures = ['citypark','ice','mars','grass'];
+    let textures = ['citypark','ice','mars', 'grass'];
     let current = 0;
 
     // WebGL scene globals.
     let gl = null;
     let renderer = null;
     let scene = new Scene();
-    let currentSkyboxNode =new SkyboxNode({url: 'assets/textures/citypark.png'})
+    let currentSkyboxNode =new SkyboxNode({url: 'assets/textures/ice.png'})
     //scene.addNode(new Gltf2Node({url: 'assets/environments/camp/camp.gltf'}));
     scene.addNode(currentSkyboxNode);
     //scene.standingStats(true);
 
 
-   function createBoxPrimitive(r, g, b) {	
+    function replaceSkyboxNode() {
+      current++;
+      if (current > textures.length-1) current = 0;
+      let newTexture = textures[current];
+      // Step 1: Remove the existing SkyboxNode from the scene
+      if (currentSkyboxNode) {
+        scene.removeNode(currentSkyboxNode);
+      } else {
+        console.warn("No existing SkyboxNode found to replace.");
+        return; // Exit if there's nothing to replace
+      }
+
+      // Step 2: Create a new SkyboxNode with the new texture
+      let newSkyboxNode = new SkyboxNode({url: textureRoot+newTexture+".png"});
+
+      // Step 3: Add the new SkyboxNode to the scene
+      scene.addNode(newSkyboxNode);
+
+      // Optionally, update your reference to the current SkyboxNode
+      currentSkyboxNode = newSkyboxNode;
+    }
+
+    function createBoxPrimitive(r, g, b) {	
       let boxBuilder = new BoxBuilder();	
       boxBuilder.pushCube([0, 0, 0], 1);	
       let boxPrimitive = boxBuilder.finishPrimitive(renderer);	
@@ -142,7 +164,6 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
         onRequestSession: onRequestSession,
         onEndSession: onEndSession
       });
-
       document.querySelector('#entervr').appendChild(xrButton.domElement);
 
       // Is WebXR available on this UA?
@@ -339,13 +360,6 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
           Math.pow(nodeA.translation[2] - nodeB.translation[2], 2));	
       }
 
-      
-      function replaceSkyboxNode() {
-        current++;
-        if (current > textures.length-1) current = 0;
-        let newTexture = textures[current];
-      }
-
       // Perform distance check on interactable elements
       const interactionDistance = interactionBox.scale[0];	
       leftInteractionBox.visible = false;	
@@ -358,7 +372,6 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
       if (Distance(indexFingerBoxes.left, indexFingerBoxes.right) < indexFingerBoxes.left.scale[0]) {	
         rightInteractionBox.visible = true;
-        replaceSkyboxNode();
       } 
 
       interactionBox.visible = !(leftInteractionBox.visible || rightInteractionBox.visible);
@@ -439,7 +452,6 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
     // Start the XR application.
     initXR();
     console.log("Init complete");
-
   </script>
 </body>
 
