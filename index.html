@@ -82,19 +82,20 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
     let gl = null;
     let renderer = null;
     let scene = new Scene();
-    let currentSkyboxNode =new SkyboxNode({url: 'assets/textures/citypark.png'})
+    let currentSkyboxNode =new SkyboxNode({url: 'assets/textures/grass.png'})
     //scene.addNode(new Gltf2Node({url: 'assets/environments/camp/camp.gltf'}));
     scene.addNode(currentSkyboxNode);
     scene.standingStats(true);
 
 
     function replaceSkyboxNode() {
+      console.log('replaceSkyboxNode');
       let timeNow = Date.now();
       let passedSeconds = (timeNow - currentTry)/1000;
 
       if (passedSeconds < 10) return;
       currentTry=timeNow;
-      
+
       current++;
       if (current > textures.length-1) current = 0;
       let newTexture = textures[current];
@@ -376,10 +377,11 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
         leftInteractionBox.visible = true;	
       } else if (Distance(indexFingerBoxes.right, interactionBox) < interactionDistance) {	
         rightInteractionBox.visible = true;	
+       
       }	
 
       if (Distance(indexFingerBoxes.left, indexFingerBoxes.right) < indexFingerBoxes.left.scale[0]) {	
-        rightInteractionBox.visible = true;
+        replaceSkyboxNode();
       } 
 
       interactionBox.visible = !(leftInteractionBox.visible || rightInteractionBox.visible);
