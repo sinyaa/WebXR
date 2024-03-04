@@ -343,7 +343,8 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
           box.translation = [0, 0, -0.65];	
           box.scale = [0.25, 0.25, 0.25];	
           return box;	
-        }	
+        }
+        	
         interactionBox = AddInteractionBox(defaultBoxColor.r, defaultBoxColor.g, defaultBoxColor.b);	
         leftInteractionBox = AddInteractionBox(leftBoxColor.r, leftBoxColor.g, leftBoxColor.b);	
         rightInteractionBox = AddInteractionBox(rightBoxColor.r, rightBoxColor.g, rightBoxColor.b);	
@@ -369,8 +370,8 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
         rightInteractionBox.visible = true;	
       }	
 
-      if (Distance(indexFingerBoxes.left, indexFingerBoxes.right) < interactionDistance) {	
-        interactionBox.visible = true;
+      if (Distance(indexFingerBoxes.left, indexFingerBoxes.right) < indexFingerBoxes.left.scale[0]) {	
+        rightInteractionBox.visible = true;
       } 
 
       interactionBox.visible = !(leftInteractionBox.visible || rightInteractionBox.visible);
