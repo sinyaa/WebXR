@@ -29,7 +29,7 @@ import {VideoTexture} from '../core/texture.js';
 
 const GL = WebGLRenderingContext; // For enums
 
-class VideoMaterial extends Material {
+export class VideoMaterial extends Material {
   constructor() {
     super();
 

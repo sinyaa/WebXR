@@ -34,7 +34,7 @@ export class PrimitiveAttribute {
 
 export class Primitive {
   constructor(attributes, elementCount, mode) {
-    this.attributes = attributes || [];
+    this.attributes = Array.isArray(attributes) ? attributes : [];
     this.elementCount = elementCount || 0;
     this.mode = mode || 4; // gl.TRIANGLES;
     this.indexBuffer = null;

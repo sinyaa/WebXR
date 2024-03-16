@@ -43,14 +43,18 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
     <div id="entervr"></div>
 </div>
   <script type="module">
-    import { WebXRButton } from './js/util/webxr-button.js';
+     import { WebXRButton } from './js/util/webxr-button.js';
     import { Scene } from './js/render/scenes/scene.js';
     import { Node } from './js/render/core/node.js';
+    import { UrlTexture } from './js/render/core/texture.js';
+    import { VideoTexture } from './js/render/core/texture.js';
     import { Renderer, createWebGLContext } from './js/render/core/renderer.js';
     import { Gltf2Node } from './js/render/nodes/gltf2.js';
     import { SkyboxNode } from './js/render/nodes/skybox.js';
     import { BoxBuilder } from './js/render/geometry/box-builder.js';
+    import { SphereBuilder } from './js/render/geometry/sphere-builder.js';
     import { PbrMaterial } from './js/render/materials/pbr.js';
+    import { VideoMaterial } from './js/render/nodes/video.js';
     import { QueryArgs } from './js/util/query-args.js';
     import {mat4} from './js/render/math/gl-matrix.js';
     import {vec3} from './js/render/math/gl-matrix.js';
@@ -75,7 +79,7 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
     let leftInteractionBox = null;
     let rightInteractionBox = null;
     let textureRoot = "assets/textures/";
-    let textures = ['citypark','ice', 'village', 'planet','city', 'ice-new','mars','wasteland','jungle','nebula','atlantis','world'];
+    let textures = ['citypark','ice', 'grass','village', 'planet','city', 'ice-new','mars','wasteland','jungle','nebula','atlantis','world','market','water','space'];
     let current = 0;
     let currentTry = Date.now();
     // WebGL scene globals.
@@ -85,7 +89,7 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
     let currentSkyboxNode =new SkyboxNode({url: 'assets/textures/grass.png'})
     //scene.addNode(new Gltf2Node({url: 'assets/environments/camp/camp.gltf'}));
     scene.addNode(currentSkyboxNode);
-    scene.standingStats(true);
+    scene.standingStats(false);
 
 
     function replaceSkyboxNode() {
@@ -124,6 +128,55 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
       let boxMaterial = new PbrMaterial();	
       boxMaterial.baseColorFactor.value = [r, g, b, 1];	
       return renderer.createRenderPrimitive(boxPrimitive, boxMaterial);	
+    }
+
+    function createSpherePrimitive(r, g, b) {	
+      let sphereBuilder = new SphereBuilder();	
+      sphereBuilder.pushUnitSphere();
+      let spherePrimitive = sphereBuilder.finishPrimitive(renderer);	
+      let material = new PbrMaterial();	
+      material.baseColorFactor.value = [r, g, b, 1];	
+      return renderer.createRenderPrimitive(spherePrimitive, material);	
+    }
+
+    function createVideoSpherePrimitive(r, g, b) {
+          let sphereBuilder = new SphereBuilder();
+          sphereBuilder.pushUnitSphere([0, 0, 0], 1.0, 32); // Assuming SphereBuilder exists and works as intended
+          let spherePrimitive = sphereBuilder.finishPrimitive(renderer);
+          //let material = new PbrMaterial();
+
+          const video = document.createElement('video');
+          video.src = '/assets/textures/videos/v1.mp4'; // Adjust the path to your video file
+          video.loop = true;
+          video.muted = true; // Necessary for autoplay in most browsers
+          video.autoplay = true; // Optional, depending on your use case
+          video.load(); // Start loading the video
+
+          const videoTexture = new VideoTexture(video);
+          let material = new VideoMaterial();
+          material.image.texture = videoTexture;
+          material.baseColorFactor = [1.0, 0.843, 0.0, 1.0]; // Gold color, RGBA
+          return renderer.createRenderPrimitive(spherePrimitive, material);
+      }
+    
+      function createImageSpherePrimitive(r, g, b) {
+          let sphereBuilder = new SphereBuilder();
+          sphereBuilder.pushUnitSphere([0, 0, 0], 1.0, 32); // Assuming SphereBuilder exists and works as intended
+          let spherePrimitive = sphereBuilder.finishPrimitive(renderer);
+          let material = new PbrMaterial();
+          let texture = new UrlTexture('assets/textures/blob.png')
+          material.baseColor.texture =texture;
+          material.baseColorFactor = [1.0, 0.843, 0.0, 1.0]; // Gold color, RGBA
+          return renderer.createRenderPrimitive(spherePrimitive, material);
+      }
+
+    function addSphere(x, y, z, r, g, b, offset) {
+      let renderPrimitive = createSpherePrimitive(r, g, b);
+      let node = new Node();
+      node.addRenderPrimitive(renderPrimitive);
+      // Marks the node as one that needs to be checked when hit testing.
+      node.selectable = true;
+      return node;
     }
 
     function addBox(x, y, z, r, g, b, offset) {
@@ -349,14 +402,22 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
         function AddInteractionBox(r, g, b) {	
           let box = new Node();	
           box.addRenderPrimitive(createBoxPrimitive(r, g, b));	
-          box.translation = [0, 0, -0.65];	
+          box.translation = [0, 0.0, -0.65];	
           box.scale = [0.25, 0.25, 0.25];	
           return box;	
         }
+
+        function AddInteractionSphere(r, g, b) {	
+          let sphere = new Node();	
+          sphere.addRenderPrimitive(createImageSpherePrimitive(r, g, b));	
+          sphere.translation = [0, 0.0, -0.65];	
+          sphere.scale = [0.25, 0.25, 0.25];	
+          return sphere;	
+        }
         	
-        interactionBox = AddInteractionBox(defaultBoxColor.r, defaultBoxColor.g, defaultBoxColor.b);	
-        leftInteractionBox = AddInteractionBox(leftBoxColor.r, leftBoxColor.g, leftBoxColor.b);	
-        rightInteractionBox = AddInteractionBox(rightBoxColor.r, rightBoxColor.g, rightBoxColor.b);	
+        interactionBox = AddInteractionSphere(defaultBoxColor.r, defaultBoxColor.g, defaultBoxColor.b);	
+        leftInteractionBox = AddInteractionSphere(leftBoxColor.r, leftBoxColor.g, leftBoxColor.b);	
+        rightInteractionBox = AddInteractionSphere(rightBoxColor.r, rightBoxColor.g, rightBoxColor.b);	
         scene.addNode(interactionBox);	
         scene.addNode(leftInteractionBox);	
         scene.addNode(rightInteractionBox);	
