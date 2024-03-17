@@ -184,7 +184,6 @@ export class Scene extends Node {
     }
 
     this._statsEnabled = enable;
-
     if (enable) {
       this._stats = new StatsViewer();
       this._stats.selectable = true;

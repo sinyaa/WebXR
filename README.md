@@ -37,4 +37,5 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 ## Acknowledgements
 
 - [WebXR API](https://immersive-web.github.io/webxr/)
+- [WebXR Samples] (https://github.com/immersive-web/webxr-samples)
 - [Apple Vision Pro Documentation](https://developer.apple.com/documentation/vision)

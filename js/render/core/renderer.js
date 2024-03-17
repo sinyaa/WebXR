@@ -213,7 +213,6 @@ class RenderPrimitive {
     this._complete = false;
     this._attributeBuffers = [];
     this._attributeMask = 0;
-    console.log(primitive.attributes);
     for (let attribute of primitive.attributes) {
       this._attributeMask |= ATTRIB_MASK[attribute.name];
       let renderAttribute = new RenderPrimitiveAttribute(attribute);
