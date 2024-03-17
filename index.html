@@ -66,12 +66,14 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
     let isAR = false;
     let radii = new Float32Array(25);
     let positions = new Float32Array(16*25);
+    let rayEnabled = false;
     
     // Boxes
     let boxes_left = [];
     let boxes_right = [];
     let boxes = { left: boxes_left, right: boxes_right };
     let indexFingerBoxes = { left: null, right: null };
+    let thumbBoxes = { left: null, right: null };
     const defaultBoxColor = {r: 0.5, g: 0.5, b: 0.5};
     const leftBoxColor = {r: 1, g: 0, b: 1};
     const rightBoxColor = {r: 0, g: 1, b: 1};
@@ -155,7 +157,7 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
           const videoTexture = new VideoTexture(video);
           let material = new VideoMaterial();
           material.image.texture = videoTexture;
-          material.baseColorFactor = [1.0, 0.843, 0.0, 1.0]; // Gold color, RGBA
+          material.baseColorFactor.value = [r, g, b, 0,5];	
           return renderer.createRenderPrimitive(spherePrimitive, material);
       }
     
@@ -166,7 +168,7 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
           let material = new PbrMaterial();
           let texture = new UrlTexture('assets/textures/blob.png')
           material.baseColor.texture =texture;
-          material.baseColorFactor = [1.0, 0.843, 0.0, 1.0]; // Gold color, RGBA
+          //material.baseColorFactor = [0.0, 0.843, 1.0, 0.4]; // Gold color, RGBA
           return renderer.createRenderPrimitive(spherePrimitive, material);
       }
 
@@ -215,6 +217,16 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
       }
       indexFingerBoxes.left = addBox(0, 0, 0, leftBoxColor.r, leftBoxColor.g, leftBoxColor.b);
       indexFingerBoxes.right = addBox(0, 0, 0, rightBoxColor.r, rightBoxColor.g, rightBoxColor.b);
+
+      if (thumbBoxes.left) {
+        scene.removeNode(thumbBoxes.left);
+      }
+      if (thumbBoxes.right) {
+        scene.removeNode(thumbBoxes.right);
+      }
+
+      thumbBoxes.left = addBox(0, 0, 0, leftBoxColor.r, leftBoxColor.g, leftBoxColor.b);
+      thumbBoxes.right = addBox(0, 0, 0, rightBoxColor.r, rightBoxColor.g, rightBoxColor.b);
     }
 
     // Checks to see if WebXR is available and, if so, queries a list of
@@ -329,7 +341,7 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
       for (let inputSource of session.inputSources) {
         let targetRayPose = frame.getPose(inputSource.targetRaySpace, refSpace);
         if (targetRayPose) {
-          if (inputSource.targetRayMode == 'tracked-pointer') {
+          if ((inputSource.targetRayMode == 'tracked-pointer') && rayEnabled) {
             scene.inputRenderer.addLaserPointer(targetRayPose.transform);
           }
 
@@ -389,8 +401,21 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
             let matrix = jointPose.transform.matrix;
             mat4.getTranslation(indexFingerBox.translation, matrix);
             mat4.getRotation(indexFingerBox.rotation, matrix);
-            indexFingerBox.scale = [0.02, 0.02, 0.02];	
+            indexFingerBox.scale = [0.01, 0.01, 0.01];	
           }
+
+          // Render a special box for each thumb on each hand	
+          const thubmBox = thumbBoxes[inputSource.handedness];	
+          scene.addNode(thubmBox);	
+          let thumb_joint = inputSource.hand.get('thumb-tip');	
+          let thumb_jointPose = frame.getJointPose(thumb_joint, xrRefSpace);	
+          if (thumb_jointPose) {	
+            let matrix = thumb_jointPose.transform.matrix;
+            mat4.getTranslation(thubmBox.translation, matrix);
+            mat4.getRotation(thubmBox.rotation, matrix);
+            thubmBox.scale = [0.01, 0.01, 0.01];	
+          }
+
         }
       }
     }
@@ -443,6 +468,10 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
       if (Distance(indexFingerBoxes.left, indexFingerBoxes.right) < indexFingerBoxes.left.scale[0]) {	
         replaceSkyboxNode();
+      } 
+
+      if (Distance(indexFingerBoxes.left, thumbBoxes.left) < indexFingerBoxes.left.scale[0]) {	
+        rayEnabled = !rayEnabled;
       } 
 
       interactionBox.visible = !(leftInteractionBox.visible || rightInteractionBox.visible);
