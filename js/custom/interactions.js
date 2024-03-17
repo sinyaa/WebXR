@@ -10,6 +10,7 @@ import { SphereBuilder } from '../render/geometry/sphere-builder.js'
 import { PbrMaterial } from '../render/materials/pbr.js'
 import { VideoMaterial } from '../render/nodes/video.js'
 import { mat4, vec3 } from '../render/math/gl-matrix.js'
+import { textureRoot, availableTextures } from '../custom/environments.js'
 
 import { Ray } from '../render/math/ray.js'
 
@@ -36,14 +37,12 @@ const rightBoxColor = { r: 0, g: 1, b: 1 }
 let interactionBox = null
 let leftInteractionBox = null
 let rightInteractionBox = null
-const textureRoot = 'assets/textures/'
-const textures = ['citypark', 'ice', 'grass', 'village', 'planet', 'city', 'ice-new', 'mars', 'wasteland', 'jungle', 'nebula', 'atlantis', 'world', 'market', 'water', 'space']
 let current = 0
 let currentTry = Date.now()
 let gl = null
 let renderer = null
 const scene = new Scene()
-let currentSkyboxNode = new SkyboxNode({ url: 'assets/textures/grass.png' })
+let currentSkyboxNode = new SkyboxNode({ url: textureRoot + availableTextures[0].name + '.png' })
 scene.addNode(currentSkyboxNode)
 scene.enableStats(false)
 
@@ -55,8 +54,8 @@ function replaceSkyboxNode () {
   currentTry = timeNow
 
   current++
-  if (current > textures.length - 1) current = 0
-  const newTexture = textures[current]
+  if (current > availableTextures.length - 1) current = 0
+  const newTexture = availableTextures[current].name
   // Step 1: Remove the existing SkyboxNode from the scene
   if (currentSkyboxNode) {
     scene.removeNode(currentSkyboxNode)
@@ -352,7 +351,7 @@ function updateInputSources (session, frame, refSpace) {
         const matrix = jointPose.transform.matrix
         mat4.getTranslation(indexFingerBox.translation, matrix)
         mat4.getRotation(indexFingerBox.rotation, matrix)
-        indexFingerBox.scale = [0.02, 0.02, 0.02]
+        indexFingerBox.scale = [0.01, 0.01, 0.01]
       }
 
       // Render a special box for each thumb on each hand
@@ -376,8 +375,8 @@ function UpdateInteractables (time) {
     function AddInteractionSphere (r, g, b) {
       const sphere = new Node()
       sphere.addRenderPrimitive(createImageSpherePrimitive(r, g, b))
-      sphere.translation = [0, 0.0, -0.65]
-      sphere.scale = [0.25, 0.25, 0.25]
+      sphere.translation = [0, 0.0, 0.65]
+      sphere.scale = [0.20, 0.20, 0.20]
       return sphere
     }
 
