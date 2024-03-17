@@ -79,3 +79,10 @@ canvas {
   color: rgb(80, 168, 252);
   background-color: rgba(255, 255, 255, 0.7);
 }
+
+.code-reference
+{
+  padding: 10px;
+  margin-top: 10px;
+  display: block;
+}
