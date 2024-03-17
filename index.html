@@ -166,7 +166,7 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
       sphereBuilder.pushUnitSphere([0, 0, 0], 1.0, 32); // Assuming SphereBuilder exists and works as intended
       let spherePrimitive = sphereBuilder.finishPrimitive(renderer);
       let material = new PbrMaterial();
-      let texture = new UrlTexture('assets/textures/blob.png')
+      let texture = new UrlTexture('assets/textures/map.png')
       material.baseColor.texture = texture;
       //material.baseColorFactor = [0.0, 0.843, 1.0, 0.4]; // Gold color, RGBA
       return renderer.createRenderPrimitive(spherePrimitive, material);
