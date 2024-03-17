@@ -67,6 +67,7 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
     let radii = new Float32Array(25);
     let positions = new Float32Array(16*25);
     let rayEnabled = false;
+    let rayDelay = Date.now();;
     
     // Boxes
     let boxes_left = [];
@@ -95,7 +96,6 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 
     function replaceSkyboxNode() {
-      console.log('replaceSkyboxNode');
       let timeNow = Date.now();
       let passedSeconds = (timeNow - currentTry)/1000;
 
@@ -401,7 +401,7 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
             let matrix = jointPose.transform.matrix;
             mat4.getTranslation(indexFingerBox.translation, matrix);
             mat4.getRotation(indexFingerBox.rotation, matrix);
-            indexFingerBox.scale = [0.01, 0.01, 0.01];	
+            indexFingerBox.scale = [0.02, 0.02, 0.02];	
           }
 
           // Render a special box for each thumb on each hand	
@@ -413,7 +413,7 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
             let matrix = thumb_jointPose.transform.matrix;
             mat4.getTranslation(thubmBox.translation, matrix);
             mat4.getRotation(thubmBox.rotation, matrix);
-            thubmBox.scale = [0.01, 0.01, 0.01];	
+            thubmBox.scale = [0.02, 0.02, 0.02];	
           }
 
         }
@@ -471,7 +471,14 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
       } 
 
       if (Distance(indexFingerBoxes.left, thumbBoxes.left) < indexFingerBoxes.left.scale[0]) {	
-        rayEnabled = !rayEnabled;
+        let timeNow = Date.now();
+        let passedSeconds = (timeNow - rayDelay);
+
+        if (passedSeconds > 1500) 
+          {
+            rayDelay=timeNow;
+            rayEnabled = !rayEnabled;
+          }
       } 
 
       interactionBox.visible = !(leftInteractionBox.visible || rightInteractionBox.visible);
