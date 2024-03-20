@@ -375,8 +375,8 @@ function UpdateInteractables (time) {
     function AddInteractionSphere (r, g, b) {
       const sphere = new Node()
       sphere.addRenderPrimitive(createImageSpherePrimitive(r, g, b))
-      sphere.translation = [0, 0.0, 0.65]
-      sphere.scale = [0.20, 0.20, 0.20]
+      sphere.translation = [0, 0.0, 1]
+      sphere.scale = [0.10, 0.10, 0.10]
       return sphere
     }
 
