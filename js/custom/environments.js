@@ -31,7 +31,7 @@ export const availableTextures = [
   },
   {
     name: 'mars',
-    description: 'VR360 panorama of the Martian landscape, with its iconic red soil and rocky terrain stretching out to the horizon. The sky is a hazy, butterscotch color, punctuated by the distant sun and the faint outline of one of Mars\' moons. Scattered across the landscape are the remnants of an abandoned human colony, including dome-shaped habitats and rusted vehicles.'
+    description: ''
   },
   {
     name: 'wasteland',
@@ -116,5 +116,25 @@ export const availableTextures = [
   {
     name: 'clockwork',
     description: 'An immense, eternal clockwork universe powered by an intricate system of gears, springs, and pendulums. Planets and stars rotate on vast, bronze cogs, while celestial bodies orbit along grooved, mechanical tracks. The constant ticking and whirring of the cosmic machinery fills the air, creating a hypnotic and awe-inspiring atmosphere.'
+  },
+  {
+    name: 'taiga',
+    description: 'Dark, treeless expanse of permafrost, covered in hardy lichens, mosses, and low-growing shrubs, with occasional rocky outcrops, ice wedges, and shallow, frigid pools.'
+  },
+  {
+    name: 'steampunk',
+    description: 'A fantastical, steampunk-inspired airship fleet soaring through the clouds, where players search for hidden gears, invention blueprints, and clues to uncover a conspiracy threatening the sky kingdom.'
+  },
+  {
+    name: 'sandy_dunes',
+    description: 'Endless sandy dunes, sun-scorched and windswept, punctuated by towering sandstone formations, shimmering mirages, and occasional oases with palm trees and crystal-clear pools.'
+  },
+  {
+    name: 'cave',
+    description: 'A cave with A stalagmite is a type of rock formation that rises from the floor of a cave due to the accumulation of material deposited on the floor from ceiling drippings. Stalagmites are typically composed of calcium carbonate, but may consist of lava, mud, peat, pitch, sand, sinter, and amberat.'
+  },
+  {
+    name: 'treeless_expanse',
+    description: 'Dark, treeless expanse of permafrost, covered in hardy lichens, mosses, and low-growing shrubs, with occasional rocky outcrops, ice wedges, and shallow, frigid pools.'
   }
 ]
